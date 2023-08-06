@@ -1,0 +1,147 @@
+<div class="container mt-3">
+  <h2 class="text-white" *ngIf="id=='0'">Add Product</h2>
+  <h2 class="text-white" *ngIf="id!='0'">Update Product</h2>
+
+  <form [formGroup]="productForm" #f="ngForm">
+    <div class="row mt-3">
+      <div class="col-md-10">
+      <div class="col-md-12 mt-1">
+        <div class="form-group">
+          <label class="text-white">Arabic Name</label>
+          <div class="">
+            <input formControlName="Name" type="text" class="form-control" maxlength="100">
+
+          </div>
+          <div *ngIf="!productForm.controls['Name'].valid && (productForm.controls['Name'].dirty ||
+          productForm.controls['Name'].touched  || f.submitted)" class="error-message">
+            <span *ngIf="productForm.controls['Name'].errors?.['required']">
+              Required
+            </span>
+            <span class="error-message" *ngIf="productForm.controls['Name'].errors?.['pattern']">
+              Arabic letters only
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12  mt-2">
+        <div class="form-group">
+          <label class="text-white">English Name</label>
+          <div class="">
+            <input formControlName="NameEn" type="text" class="form-control" maxlength="100">
+
+          </div>
+          <div *ngIf="!productForm.controls['NameEn'].valid && (productForm.controls['NameEn'].dirty ||
+          productForm.controls['NameEn'].touched  || f.submitted)" class="error-message">
+            <span *ngIf="productForm.controls['NameEn'].errors?.['required']">
+              Required
+            </span>
+            <span class="error-message" *ngIf="productForm.controls['NameEn'].errors?.['pattern']">
+              English letters only
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12  mt-2">
+        <div class="form-group">
+          <label class="text-white">Category</label>
+          <div class=" d-flex">
+            <select class="form-control" formControlName="CategoryId" (change)="onSelectCategory($event)">
+              <option selected disabled value="">*</option>
+              <option *ngFor="let cat of categories" [value]="cat.Id">
+                {{cat.Name}}
+              </option>
+            </select>
+          </div>
+          <div *ngIf="!productForm.controls['CategoryId'].valid && (productForm.controls['CategoryId'].dirty ||
+          productForm.controls['CategoryId'].touched  || f.submitted)" class="error-message">
+            Required
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-12  mt-2">
+        <div class="form-group">
+          <label class="text-white">Description</label>
+          <div class="">
+            <input formControlName="Description" type="text" class="form-control" maxlength="100">
+
+          </div>
+          <div *ngIf="!productForm.controls['Description'].valid && (productForm.controls['Description'].dirty ||
+          productForm.controls['Description'].touched  || f.submitted)" class="error-message">
+            <span *ngIf="productForm.controls['Description'].errors?.['required']">
+              Required </span>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="col-md-12  mt-2">
+        <div class="form-group">
+          <label class="text-white">Price</label>
+          <div class="">
+            <input formControlName="Price" type="number" class="form-control">
+          </div>
+
+          <div *ngIf="!productForm.controls['Price'].valid && (productForm.controls['Price'].dirty ||
+          productForm.controls['Price'].touched  || f.submitted)" class="error-message">
+            <span class="error-message" *ngIf="productForm.controls['Price'].errors?.['min']">
+              Price must be > 0
+            </span>
+            <span class="error-message" *ngIf="productForm.controls['Price'].errors?.['required']">
+              Required </span>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col-md-12  mt-2">
+        <div class="form-group">
+          <label class="text-white" style="margin-right: 20px;">Available Stock</label>
+          <div class="d-inline">
+            <input #radioInput formControlName="HasAvailableStock" type="checkbox" [value]="product.HasAvailableStock"
+              (change)="stockChange(radioInput)">
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12  mt-2">
+        <div class="form-group">
+          <label class="text-white">Image</label>
+          <div class="">
+            <p-fileUpload #fileUpload formControlName="Image" mode="basic" accept="image/*"
+              (onSelect)="uploadImage($event)" [auto]="true" class="ui-fileupload-override btn-round btn-success">
+            </p-fileUpload>
+            <div *ngIf="!productForm.controls['Image'].valid && (productForm.controls['Image'].dirty ||
+            productForm.controls['Image'].touched  || f.submitted)" class="error-message">
+              <span class="error-message" *ngIf="productForm.controls['Image'].errors?.['required']">
+                Required </span>
+            </div>
+          </div>
+          <div>
+            <img *ngIf="product.Image" [src]="imageUrl + product.Image" class="align-self-center rounded-circle"
+              style="width:50px; height:50px;" alt="Product Image" onerror="this.src='../../../../assets/images/Error.png'">
+          
+            </div>
+        </div>
+      </div>
+
+      <div style="text-align: center">
+        <button type="submit" class="btn btn-success m-1 " (click)="save()">
+          Save
+        </button>
+        <button class="btn btn-secondary m-1" (click)="cancel()">
+          Cancel
+        </button>
+
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+
+<p-toast [style]="{bottom: '20px',top:'unset'}"></p-toast>

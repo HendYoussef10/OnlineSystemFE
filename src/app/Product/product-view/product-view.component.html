@@ -1,0 +1,57 @@
+<div  style="margin: 30px 20px 20px 20px;">
+  <h4 class="text-white">Our Products</h4>
+  <p-table [paginator]="true" [lazy]="true" [totalRecords]="productsCount" [rows]="noOfRows" [value]="products" rowGroupMode="rowspan" 
+  (onLazyLoad)="onPageChange($event)"
+  groupRowsBy="Category.Name" sortField="Name" sortMode="single">
+    <ng-template pTemplate="caption">
+      <div class="table-header mb-10">
+        Products
+        <span style="float: right" class="p-input-icon-left">
+          <button pButton pRipple label="Add New" icon="pi pi-plus" class="p-button-success mr-2"  (click)="addProduct()"></button>
+
+          <p-button class="m-1 p-button-success" label="Export" icon="pi pi-download" (click)="getAllProducts()" title="download Products as JSON" ></p-button>
+
+        </span>
+    </div>
+
+   
+     
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        
+        <th>Category Name</th>
+        <th>Product Arabic Name</th>
+        <th>Product English Name</th>
+        <th></th>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-rowIndex="rowIndex" let-rowgroup="rowgroup" let-rowspan="rowspan">
+      <tr>
+        
+        <td *ngIf="rowgroup" [attr.rowspan]="rowspan">
+          <span class="p-text-bold p-ml-2">{{product.Category.Name}}</span>
+        </td>
+        <td>
+          {{product.Name}}
+        </td>
+
+        <td>{{product.NameEn}}</td>
+        <td>
+
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-warning m-1" (click)="updateProduct(product)"
+            title="edit">
+          </button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-danger m-1" (click)="deleteProduct(product.Id)">
+          </button>
+
+        </td>
+
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-confirmDialog [style]="{width: '30vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+<p-toast [style]="{bottom: '20px',top:'unset'}"></p-toast>

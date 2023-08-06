@@ -1,0 +1,27 @@
+<main>
+
+  <div class="row">
+
+    <form [formGroup]="loginForm" class="colm-form" (ngSubmit)="login()">
+      <div class="form-container">
+        <h1 class="mt-10 mb-10">Welcome</h1>
+        <input style="margin-top: 30px;" type="text" placeholder="Please Enter your Email" formControlName="Email">
+        <div class="invalid"
+          *ngIf="isSubmitted &&loginForm.controls['Email'].touched && loginForm.controls['Email'].errors?.['required']">
+          Email is required</div>
+        <div class="invalid"
+          *ngIf="isSubmitted &&loginForm.controls['Email'].touched && loginForm.controls['Email'].errors?.['pattern']">
+          Email must be in correct form</div>
+        <input type="password" placeholder="Password" formControlName="Password">
+        <div class="invalid"
+          *ngIf="isSubmitted &&loginForm.controls['Password'].touched && loginForm.controls['Password'].errors?.['required']">
+          Password is required</div>
+        <input type="submit" class="btn btn-info" value="Login">
+        <div class="invalid" *ngIf="serverError">Email or password Inccorect </div>
+      </div>
+    </form>
+
+  </div>
+
+
+</main>
